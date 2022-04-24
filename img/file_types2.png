@@ -1,0 +1,851 @@
+<!DOCTYPE html>
+<!-- saved from url=(0068)https://thaniri.com/blog/2020-01-26-chassing-linux-interview-medium/ -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Working through these questions. Any question I could not answer immediately has a citation.">
+<meta name="theme-color" content="#ffcd00">
+
+<meta property="og:title" content="Chassing Sysadmin Interview Questions (Medium) • Marek Slabicki">
+<meta property="og:description" content="Working through these questions. Any question I could not answer immediately has a citation.">
+<meta property="og:url" content="https://thaniri.com/blog/2020-01-26-chassing-linux-interview-medium/">
+<meta property="og:site_name" content="Marek Slabicki">
+<meta property="og:type" content="article"><meta property="article:section" content="blog"><meta property="article:tag" content="linux"><meta property="article:tag" content="sysadmin"><meta property="article:tag" content="interview"><meta property="article:published_time" content="2020-01-26T00:00:00Z"><meta property="article:modified_time" content="2020-01-26T00:00:00Z"><meta name="twitter:card" content="summary"><meta name="twitter:site" content="@thaniri">
+
+<meta name="generator" content="Hugo 0.59.1">
+
+  <title>Chassing Sysadmin Interview Questions (Medium) • Marek Slabicki</title>
+  <link rel="canonical" href="https://thaniri.com/blog/2020-01-26-chassing-linux-interview-medium/">
+  
+  
+  <link rel="icon" href="https://thaniri.com/favicon.ico">
+<link rel="stylesheet" href="./file_types2_files/main.4267b3fa.css"><link rel="stylesheet" href="./file_types2_files/custom.css"><style>
+:root{--color-accent:#ffcd00;}
+</style>
+
+  
+
+<script charset="utf-8" src="./file_types2_files/sidebar.88cb8643.js.download"></script></head>
+
+
+<body class="page type-blog has-sidebar">
+
+  <div class="site">
+
+    <div id="sidebar" class="sidebar" tabindex="-1" aria-expanded="false" style="position: fixed;">
+  <a class="screen-reader-text" href="https://thaniri.com/blog/2020-01-26-chassing-linux-interview-medium/#main-menu">Skip to Main Menu</a>
+
+  <button id="#sidebar-collapse" class="sidebar-toggler" aria-controls="sidebar" aria-expanded="false">
+  <span class="screen-reader-text">Toggle Sidebar</span>
+  <span class="open"><svg class="icon" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" aria-hidden="true">
+  
+  <line x1="3" y1="12" x2="21" y2="12"></line>
+  <line x1="3" y1="6" x2="21" y2="6"></line>
+  <line x1="3" y1="18" x2="21" y2="18"></line>
+  
+</svg>
+</span>
+  <span class="close"><svg class="icon" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" aria-hidden="true">
+  
+  <line x1="18" y1="6" x2="6" y2="18"></line>
+  <line x1="6" y1="6" x2="18" y2="18"></line>
+  
+</svg>
+</span>
+</button><div class="container"><section class="widget widget-about sep-after">
+  <header>
+    
+    <div class="logo">
+      <a href="https://thaniri.com/">
+        <img src="./file_types2_files/logo.png">
+      </a>
+    </div>
+    
+    <h2 class="title site-title ">
+    Marek Slabicki
+    </h2>
+    <div class="desc">
+    Personal website.
+    </div>
+  </header>
+
+</section>
+<section class="widget widget-sidebar_menu sep-after"><nav id="sidebar-menu" class="menu sidebar-menu" aria-label="Sidebar Menu">
+    <div class="container">
+      <ul><li class="item">
+  <a href="https://thaniri.com/">Home</a></li><li class="item">
+  <a href="https://thaniri.com/blog/">Blog</a></li><li class="item">
+  <a href="https://thaniri.com/projects/">Projects</a></li></ul>
+    </div>
+  </nav>
+
+</section><section class="widget widget-taxonomy_cloud sep-after">
+  <header>
+    <h4 class="title widget-title">Tags</h4>
+  </header>
+
+  <div class="container list-container">
+  <ul class="list taxonomy-cloud"><li>
+        <a href="https://thaniri.com/tags/interview/" style="font-size:1.5em">interview</a>
+      </li><li>
+        <a href="https://thaniri.com/tags/continuous-deployment/" style="font-size:1em">Continuous Deployment</a>
+      </li><li>
+        <a href="https://thaniri.com/tags/dns/" style="font-size:1em">DNS</a>
+      </li><li>
+        <a href="https://thaniri.com/tags/tvp/" style="font-size:1em">TvP</a>
+      </li><li>
+        <a href="https://thaniri.com/tags/email/" style="font-size:1em">email</a>
+      </li><li>
+        <a href="https://thaniri.com/tags/linux/" style="font-size:2em">linux</a>
+      </li><li>
+        <a href="https://thaniri.com/tags/career/" style="font-size:1.5em">career</a>
+      </li><li>
+        <a href="https://thaniri.com/tags/none/" style="font-size:1em">none</a>
+      </li><li>
+        <a href="https://thaniri.com/tags/travis-ci/" style="font-size:1em">Travis-CI</a>
+      </li><li>
+        <a href="https://thaniri.com/tags/starcraft-2/" style="font-size:1.5em">Starcraft 2</a>
+      </li><li>
+        <a href="https://thaniri.com/tags/security/" style="font-size:1em">security</a>
+      </li><li>
+        <a href="https://thaniri.com/tags/aws/" style="font-size:1em">AWS</a>
+      </li><li>
+        <a href="https://thaniri.com/tags/sysadmin/" style="font-size:2em">sysadmin</a>
+      </li><li>
+        <a href="https://thaniri.com/tags/tvz/" style="font-size:1em">TvZ</a>
+      </li><li>
+        <a href="https://thaniri.com/tags/engineering-process/" style="font-size:1em">engineering process</a>
+      </li></ul>
+</div>
+
+
+</section>
+</div>
+
+  <div class="sidebar-overlay"></div>
+</div>
+
+    <div class="main">
+
+      <nav id="main-menu" class="menu main-menu" aria-label="Main Menu">
+  <div class="container">
+    <a class="screen-reader-text" href="https://thaniri.com/blog/2020-01-26-chassing-linux-interview-medium/#content">Skip to Content</a>
+
+<button id="sidebar-toggler" class="sidebar-toggler" aria-controls="sidebar" aria-expanded="false">
+  <span class="screen-reader-text">Toggle Sidebar</span>
+  <span class="open"><svg class="icon" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" aria-hidden="true">
+  
+  <line x1="3" y1="12" x2="21" y2="12"></line>
+  <line x1="3" y1="6" x2="21" y2="6"></line>
+  <line x1="3" y1="18" x2="21" y2="18"></line>
+  
+</svg>
+</span>
+  <span class="close"><svg class="icon" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" aria-hidden="true">
+  
+  <line x1="18" y1="6" x2="6" y2="18"></line>
+  <line x1="6" y1="6" x2="18" y2="18"></line>
+  
+</svg>
+</span>
+</button>
+    <ul><li class="item">
+        <a href="https://thaniri.com/">Home</a>
+      </li><li class="item">
+        <a href="https://thaniri.com/blog/">Blog</a>
+      </li><li class="item">
+        <a href="https://thaniri.com/projects/">Projects</a>
+      </li><li class="item">
+        <a href="https://thaniri.com/about/">About</a>
+      </li><li class="item">
+        <a href="https://github.com/thaniri/personalwebsite">Repo</a>
+      </li></ul>
+  </div>
+</nav>
+
+      <header id="header" class="header site-header">
+        <div class="container sep-after">
+          <div class="header-info"><p class="site-title title">Marek Slabicki</p><p class="desc site-desc">Personal website.</p>
+          </div>
+        </div>
+      </header>
+
+      <main id="content">
+
+
+<article lang="en" class="entry">
+  <header class="header entry-header">
+  <div class="container sep-after">
+    <div class="header-info">
+      <h1 class="title">Chassing Sysadmin Interview Questions (Medium)</h1>
+      
+<p class="desc">Working through these questions. Any question I could not answer immediately has a citation.</p>
+
+
+    </div>
+    
+<div class="entry-meta">
+  <span class="posted-on"><svg class="icon" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" aria-hidden="true">
+  
+  <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+  <line x1="16" y1="2" x2="16" y2="6"></line>
+  <line x1="8" y1="2" x2="8" y2="6"></line>
+  <line x1="3" y1="10" x2="21" y2="10"></line>
+  
+</svg>
+<span class="screen-reader-text">Posted on </span>
+  <time class="entry-date" datetime="2020-01-26T00:00:00Z">2020, Jan 26</time>
+</span>
+
+  
+  
+<span class="reading-time"><svg class="icon" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" aria-hidden="true">
+  
+  <circle cx="12" cy="12" r="10"></circle>
+  <polyline points="12 6 12 12 15 15"></polyline>
+  
+</svg>
+19 mins read
+</span>
+
+
+</div>
+
+
+  </div>
+</header>
+
+  
+  
+
+  <div class="container entry-content">
+  
+
+<h1 id="linux-system-administrator-devops-interview-questions">Linux System Administrator/DevOps Interview Questions</h1>
+
+<p>I worked through the easy questions <a href="https://thaniri.com/blog/2019-01-01/" target="_blank">last year</a>. Since then I’ve studied for the LPIC 1 and 2 so I’m going to work through some more difficult material.</p>
+
+<h2 id="medium-questions">Medium Questions</h2>
+
+<p>The link to these questions can be found <a href="https://github.com/chassing/linux-sysadmin-interview-questions#medium" target="_blank">here</a></p>
+
+<ul>
+<li><p><strong>What do the following commands do and how would you use them?</strong></p>
+
+<ul>
+<li>tee: receives input and redirects it to both the terminal and an output file.</li>
+<li>awk: allows scanning of input (file or STDIN) for patterns. Useful for things like retrieving the nth column from a CSV file.</li>
+<li>tr: used to delete certain characters from text</li>
+<li>cut: used to remove a column from a file</li>
+<li>tac: prints a file but with the line numbers reversed</li>
+<li>curl: sends an HTTP request over the command line</li>
+<li>wget: fetches the result of on HTTP request over the command line</li>
+<li>watch: used before a command to keep running said command repeatedly and print the output each time</li>
+<li>head: looks at the first n rows of an input</li>
+<li>tail: looks at the last n rows of an input</li>
+<li>less: creates a buffer for an input which allows scrolling up and down the lines</li>
+<li>cat: mostly used to print the content of a file to a terminal, actually was originally designed to concatenate files together</li>
+<li>touch: used to create an empty file, can also be used to modify the access or modify time of a file</li>
+<li>sar: used to see resource usage (CPU, memory, disk IO) of the server at a point in time</li>
+<li>netstat: prints network information about the server, such as ports in use, network interfaces, routing tables</li>
+<li>tcpdump: records all of the packets going over a network interface</li>
+<li>lsof: checks for open file handles</li>
+</ul></li>
+</ul>
+
+<p><br></p>
+
+<ul>
+<li><strong>What does an <code>&amp;</code> after a command do?</strong></li>
+</ul>
+
+<p>&amp; after a command is meant to run the command in the background. This way a long running command is not blocking. If the parent process dies, this background command will still die as well.</p>
+
+<ul>
+<li><strong>What does <code>&amp; disown</code> after a command do?</strong></li>
+</ul>
+
+<p>The difference between <code>command &amp;</code> and <code>command &amp; disown</code> is that disowning the process results in it no longer showing up in the list of jobs attached to a shell.</p>
+
+<p>If a user runs <code>command &amp;</code> then <code>jobs</code>, they will see that command is currently running on a certain PID. Then the user can run the <code>fg</code> command to bring this job into the foreground.</p>
+
+<p>Following the same process, running <code>command &amp; disown</code> results in the back-grounded process not showing up in the list of jobs.</p>
+
+<p>However, in both cases the command will start a process which is still owned by the terminal that started it. So if the terminal is closed, the process will die in both cases.</p>
+
+<p>Source: <a href="https://unix.stackexchange.com/a/148698" target="_blank">1</a></p>
+
+<ul>
+<li><strong>What is a packet filter and how does it work?</strong></li>
+</ul>
+
+<p>A packet filter is something that inspects packet headers on a network interface. This can be implemented on a firewall, or on a Linux server directly.</p>
+
+<p>The filter looks at the contents of each packet, and compares it to a list of rules for acceptable traffic. If the packet is considered acceptable, then it is allowed through the network interface.</p>
+
+<ul>
+<li><strong>What is Virtual Memory?</strong></li>
+</ul>
+
+<p>Virtual memory in Linux is the ability to use a disk to extend Memory. There are a couple of ways to do this:</p>
+
+<ol>
+<li>Create swap space</li>
+<li>Create a swap file</li>
+<li>Write a program which takes advantage of <a href="https://en.wikipedia.org/wiki/Memory-mapped_I/O" target="_blank">memory mapped IO</a></li>
+</ol>
+
+<p>Source: <a href="https://www.tldp.org/LDP/sag/html/vm-intro.html" target="_blank">1</a></p>
+
+<ul>
+<li><strong>What is swap and what is it used for?</strong></li>
+</ul>
+
+<p>Swap is a portion of the disk that the server uses as an extension to memory when the server is running out of memory.</p>
+
+<p>A good reason to use swap is to prevent a server from crashing if it begins to run out of memory. Instead it will try to extend memory using dedicated space on the disk, and continue operations, albeit at a considerably slower pace.</p>
+
+<ul>
+<li><p><strong>What is an A record, an NS record, a PTR record, a CNAME record, an MX record?</strong></p>
+
+<ul>
+<li>A Record: maps a hostname to an IP address</li>
+<li>NS Record: a name server record which indicates which DNS server(s) are authoritative for a specific domain</li>
+<li>PTR Record: maps an IP address in reverse to a hostname</li>
+<li>CNAME Record: creates an “alias” name which maps typically to an A record, but can also be an alias of another alias.</li>
+<li>MX Record: a mail record which represents a mail server</li>
+</ul></li>
+</ul>
+
+<p>Source: <a href="https://www.cloudflare.com/learning/dns/dns-records/dns-ns-record/" target="_blank">1</a></p>
+
+<ul>
+<li><strong>Are there any other RRs and what are they used for?</strong></li>
+</ul>
+
+<p>There are plenty of other DNS Resource Records:</p>
+
+<ul>
+<li>SOA: Start of authority, includes information like who is the admin</li>
+<li>AAAA: An A record for IPV6</li>
+<li>SPF: Used to verify a mail server for security purposes</li>
+<li>TXT: Literally human readable text</li>
+
+<li><p>SRV: Maps the type of service on a given server to a port and hostname</p></li>
+
+<li><p><strong>What is a Split-Horizon DNS?</strong></p></li>
+</ul>
+
+<p>Split Horizon DNS is the ability to return different results to DNS queries based on the IP address of the requester.</p>
+
+<p>This is beneficial if you have a service (A) running on a public IP address within a corporate (firewalled) network, that must be accessed by another service (B) running on a private IP address within the corporate network. Instead of service B resolving service A to a public IP address and thus needing to go out of the firewall to route to it, is is possible using Split-Horizon DNS to get service B to get a different result which is the private IP address of service A.</p>
+
+<p>Sources: <a href="https://ns1.com/resources/split-horizon-or-multiview-dns" target="_blank">1</a>, <a href="https://security.stackexchange.com/questions/98088/how-important-is-split-horizon-dns" target="_blank">2</a></p>
+
+<ul>
+<li><strong>What is the sticky bit?</strong></li>
+</ul>
+
+<p>The sticky bit on a file is used to grant it additional properties in terms of permissions. In a typical file, there is octal notation to denote the permissions it has. A file can have permissions set to 755 for example. However, there is a fourth octal bit which is not often talked about, which is the sticky bit at the beginning. The file actually has permissions of 0755.</p>
+
+<p>The sticky bit can be set by doing <code>chmod +t file.txt</code>. What this particular permission does is prevent anyone but the owner of the file from renaming or deleting this file.</p>
+
+<ul>
+<li><strong>What does the immutable bit do to a file?</strong></li>
+</ul>
+
+<p>The immutable bit on a file is set by running <code>chmod +i file.txt</code>. It prevents the file from being modified, deleted, renamed, or linked to.</p>
+
+<ul>
+<li><p><strong>What is the difference between hard links and symlinks? What happens when you remove the source to a symlink/hardlink?</strong></p>
+
+<ol>
+<li>A symlink can cross file systems, but a hardlink cannot.</li>
+<li>A symlink has a different inode for the link, whereas the hardlink uses the same inode.</li>
+<li>If you delete the source file, the symlink becomes a “dead link” that points to nowhere. The hardlink will continue to point to the old file because it wasn’t wiped from the hard drive, so the hard link can still be used to read the content of the old file.</li>
+</ol></li>
+
+<li><p><strong>What is an inode and what fields are stored in an inode?</strong></p></li>
+</ul>
+
+<p>An inode contains metadata about a file but not the file itself.</p>
+
+<p>It contains information such as:</p>
+
+<ul>
+<li>The block at which a file is found</li>
+<li>The permissions of that file</li>
+<li>The number of the inode (there is a limit of inodes on a per-filesystem basis)</li>
+</ul>
+
+<p>Source <a href="https://linoxide.com/linux-command/linux-inode/#What_is_an_inode_in_Linux" target="_blank">1</a></p>
+
+<ul>
+<li><strong>How to force/trigger a file system check on next reboot?</strong></li>
+</ul>
+
+<p>You can force a file system check on reboot by running <code>tune2fs -c 1 /dev/device</code> which will change the maximum number of times a filesystem has been mounted before requiring a check.</p>
+
+<ul>
+<li><strong>What is SNMP and what is it used for?</strong></li>
+</ul>
+
+<p>SNMP stands for Simple Network Management Protocol. It is mostly used for monitoring devices over the a network. So long as the correct MIBs are presented, it is possible to use an SNMP walk to collect metrics from given devices.</p>
+
+<ul>
+<li><strong>What is a runlevel and how to get the current runlevel?</strong></li>
+</ul>
+
+<p>A runlevel is a description of what is running on a server at a particular runlevel.</p>
+
+<p>There are 6 standard runlevels, but more can be added:</p>
+
+<ul>
+<li>0 - Shutdown. The server will shut down at this runlevel.</li>
+<li>1 - Single-user mode, no networking.</li>
+<li>2 - Multi-user mode, no networking.</li>
+<li>3 - Multi-user mode, with networking.</li>
+<li>4 - Skipped.</li>
+<li>5 - Multi-user mode, with networking and GUI.</li>
+<li>6 - Reboot. The server will restart at this runlevel.</li>
+</ul>
+
+<p>To get the current (and previous) runlevel, just run the <code>runlevel</code> command.</p>
+
+<ul>
+<li><strong>What is SSH port forwarding?</strong></li>
+</ul>
+
+<p>SSH port forwarding is the running of a service over the SSH protocol. For example it is possible to serve a remote desktop over SSH if port forwarding is used.</p>
+
+<p>This is also called SSH tunneling and is generally considered a security risk in most networks.</p>
+
+<ul>
+<li><strong>What is the difference between local and remote port forwarding?</strong></li>
+</ul>
+
+<p>Local SSH port forwarding allows connecting from your local computer to a remote server. You set up a tunnel from localhost on port 1234 to remote host on port 4321. Then you can access the remote host on port 4321 by making a request against port 1234 locally.</p>
+
+<p>Remote SSH port forwarding allows connecting from a remote to server to your local computer. Then, you can run a similar command to local port forwarding which allows accessing an application running on localhost port 1234 by making a request to the remote server on port 4321.</p>
+
+<p>Source: <a href="https://www.tecmint.com/create-ssh-tunneling-port-forwarding-in-linux/" target="_blank">1</a></p>
+
+<ul>
+<li><p><strong>What are the steps to add a user to a system without using useradd/adduser?</strong></p>
+
+<ol>
+<li>Create an entry for the user in /etc/passwd</li>
+<li>Create an entry for the user in /etc/shadow</li>
+<li>Create an entry for the user in /etc/group</li>
+<li>Create a home directory and make sure it is owned by the correct user and group</li>
+</ol></li>
+
+<li><p><strong>What is MAJOR and MINOR numbers of special files?</strong></p></li>
+</ul>
+
+<p>Special files, such as files which represent devices, have major and minor numbers which represent which drivers are responsible for that class of device, and what specific device is of that class, respectively.</p>
+
+<p>Sources: <a href="https://unix.stackexchange.com/a/124233" target="_blank">1</a>, <a href="https://www.oreilly.com/library/view/linux-device-drivers/0596000081/ch03s02.html" target="_blank">2</a></p>
+
+<ul>
+<li><strong>Describe the <code>mknod</code> command and when you’d use it.</strong></li>
+</ul>
+
+<p>From the man page, <code>mknod</code> is used to create block or character special files found in /dev.</p>
+
+<p>These days this command is not used becaused <code>udev</code> automatically handlese the creation and removal of devices in /dev.</p>
+
+<p>Sources: <a href="https://unix.stackexchange.com/a/10725" target="_blank">1</a></p>
+
+<ul>
+<li><strong>Describe a scenario when you get a “filesystem is full” error, but <code>df</code> shows there is free space.</strong></li>
+</ul>
+
+<p>One possibility for this error is running out of inodes on a filesystem. This can happen when many tiny files are written to the filesystem that don’t take up much space but do each take up an inode.</p>
+
+<ul>
+<li><strong>Describe a scenario when deleting a file, but <code>df</code> not showing the space being freed.</strong></li>
+</ul>
+
+<p>If a process currently has a file open, and you delete the file, the space is still considered in use on the filesystem. Killing the process with the file open fixes this.</p>
+
+<p>Source: <a href="https://techosaurs.com/df-says-disk-is-full-but-it-is-not/" target="_blank">1</a></p>
+
+<ul>
+<li><strong>Describe how ‘ps’ works.</strong></li>
+</ul>
+
+<p><code>ps</code> reads from /proc to know about all running processes and information about said processes.</p>
+
+<ul>
+<li><strong>What happens to a child process that dies and has no parent process to wait for it and what’s bad about this?</strong></li>
+</ul>
+
+<p>When a child process dies and has no parent process waiting for it, it is considered a zombie process. Processes that stay zombies for a long time without being reaped are sign of resource leakage and will eventually cause the system to slow down.</p>
+
+<p>It is possible to run out of PIDs which can be assigned if too many zombies have been made.</p>
+
+<ul>
+<li><p><strong>Explain briefly each one of the process states.</strong></p>
+
+<ul>
+<li>R: the process is being run by the CPU or is ready to be run (runnable)</li>
+<li>S: The process is waiting for an event, such as the output of another process, and can be interrupted</li>
+<li>D: The process is waitting for an event, but cannot be killed or interrupted by a signal</li>
+<li>T: The process has been suspended or stopped</li>
+<li>Z: the process has sent an exit signal, but still has an entry in the process table</li>
+</ul></li>
+</ul>
+
+<p>Source: <a href="https://linuxjourney.com/lesson/process-states" target="_blank">1</a></p>
+
+<ul>
+<li><strong>How to know which process listens on a specific port?</strong></li>
+</ul>
+
+<p>The easiest way to find this out is to run <code>ss -tlpn | grep &lt;port&gt;</code>.</p>
+
+<ul>
+<li><strong>What is a zombie process and what could be the cause of it?</strong></li>
+</ul>
+
+<p>A zombie process is a process started by a parent, which has completed running, but the parent process has failed to catch the exit call from the child.</p>
+
+<p>The cause for a zombie process could be a poorly programmed piece of software, or by sending a <code>kill -9</code> to the parent process. Sending a <code>kill -9</code> signal kills the process, but does not clean up child processes.</p>
+
+<ul>
+<li><strong>You run a bash script and you want to see its output on your terminal and save it to a file at the same time. How could you do it?</strong></li>
+</ul>
+
+<p><code>./script.sh | tee output.txt</code></p>
+
+<ul>
+<li><strong>Explain what echo “1” &gt; /proc/sys/net/ipv4/ip_forward does.</strong></li>
+</ul>
+
+<p>This will change the settings for ip forwarding at runtime. Since it is putting “1” into this file, we can assume that it is enabling ip forwarding. A better way to do this would be to find the equivalent kernel configuration and put it into <code>/etc/sysctl.conf</code>.</p>
+
+<ul>
+<li><strong>Describe briefly the steps you need to take in order to create and install a valid certificate for the site <a href="https://foo.example.com/" target="_blank">https://foo.example.com</a>.</strong></li>
+</ul>
+
+<p>I am going to assume this is running on a webserver such as NGINX or Apache.</p>
+
+<ol>
+<li>Create a certificate signing request (CSR) for foo.example.com</li>
+<li>Present the CSR to a valid certificate authority, and generate a new TLS certificate and private key</li>
+<li>Put the newly issued certificate and private key onto the webserver hosting foo.example.com. Make sure you put the files into appropriate directories with appropriate file permissions.</li>
+<li>Configure the webserver to use TLS and specify which certificate and key files to use.</li>
+<li>Reload the webserver configuration.</li>
+</ol>
+
+<ul>
+<li><strong>Can you have several HTTPS virtual hosts sharing the same IP?</strong></li>
+</ul>
+
+<p>It is absolutely possible to configure this. <a href="https://httpd.apache.org/docs/2.4/vhosts/examples.html" target="_blank">Apache</a>, <a href="https://www.nginx.com/resources/wiki/start/topics/examples/server_blocks/" target="_blank">NGINX</a>.</p>
+
+<p>The only time this would be invalid is if the certificate itself was not valid for the different IP address. It is possible to get around this by adding in <a href="https://www.digicert.com/subject-alternative-name.htm" target="_blank">Subject Alternative Names</a>.</p>
+
+<ul>
+<li><strong>What is a wildcard certificate?</strong></li>
+</ul>
+
+<p>A wildcard cert is something valid for any hostname under a subdomain.</p>
+
+<p>An example wildcard certificate is <code>*.foo.example.com</code></p>
+
+<p>Valid hostnames for this certificate would include <code>abc.foo.example.com</code> or <code>bar.foo.example.com</code></p>
+
+<ul>
+<li><strong>Which Linux file types do you know?</strong></li>
+</ul>
+
+<p>In Linux technically everything is a file ;)</p>
+
+<p>The standard file types are regular files, and directories.</p>
+
+<p>Other file types include links and devices. We can get into more detail by looking at some articles <a href="https://www.linux.com/tutorials/file-types-linuxunix-explained-detail/" target="_blank">online</a>.</p>
+
+<ul>
+<li>Regular file: a file that is readable, executable, an image, or an archive.</li>
+<li>Directory: a file which contains other files for organizational purposes</li>
+<li>Block file: a file which represents a device in /dev</li>
+<li>Character file: a file which represents a stream of input or output</li>
+<li>Pipe files: a file like a pipe <code>|</code> but which can be accessed as part of the file system. (Source)[<a href="http://man7.org/linux/man-pages/man7/fifo.7.html" target="_blank">http://man7.org/linux/man-pages/man7/fifo.7.html</a>]</li>
+<li>Symbolic links: it is a file which links to another file</li>
+
+<li><p>Socket files: a file representing a socket which is listening for an application</p></li>
+
+<li><p><strong>What is the difference between a process and a thread? And parent and child processes after a fork system call?</strong></p></li>
+</ul>
+
+<p>A process is the program being executed in memory. A thread is a separate instruction set being executed within a process.</p>
+
+<p><code>fork()</code> is the system call used to start another process. The process which called <code>fork()</code> is the parent. The child is different in that in can be killed or finish execution without the parent also being killed or finishing. However, if the parent is killed, then the child is supposed to be reaped as well. Child processes inherit most attributes from thee parent process.</p>
+
+<p>Sources: <a href="https://www.programmerinterview.com/operating-systems/thread-vs-process/" target="_blank">1</a>, <a href="https://www.tutorialspoint.com/process-vs-parent-process-vs-child-process" target="_blank">2</a></p>
+
+<ul>
+<li><strong>What is the difference between exec and fork?</strong></li>
+</ul>
+
+<p>The exec system call replaces the program that a process is running with an entirely different program. Exec is used when you want to launch a new program in the same process.</p>
+
+<p>The fork system call is used to start a new process, that is running concurrently with the parent process which started it.</p>
+
+<p>Sources: <a href="https://linuxhint.com/linux-exec-system-call/" target="_blank">1</a>, <a href="https://www.geeksforgeeks.org/fork-system-call/" target="_blank">2</a></p>
+
+<ul>
+<li><strong>What is “nohup” used for?</strong></li>
+</ul>
+
+<p><code>nohup</code> is a command line utility to start processes which cannot be interrupted.</p>
+
+<p>A good case for using <code>nohup</code> is when executing a long running command in the background of a terminal, but not wanting this command to stop when the terminal is terminated. You can run <code>nohup verylongcommand &amp;</code> to run a very long command in the background and then you can log out and the command will continue to run until completion.</p>
+
+<p>If the command has output to STDOUT, it will send STDOUT to a file called nohup.out in the directory in which the command was executed. STDERR will be redirected to STDOUT and finally into nohup.out.</p>
+
+<p>Source: <a href="https://linux.101hacks.com/unix/nohup-command/" target="_blank">1</a></p>
+
+<ul>
+<li><strong>What is the difference between these two commands? <code>myvar=hello</code> and <code>export myvar=hello</code></strong></li>
+</ul>
+
+<p>Both commands create a variable called myvar local to the shell in which they were created. The difference is that using <code>export</code> makes this variable available to child processes started by that shell.</p>
+
+<ul>
+<li><strong>How many NTP servers would you configure in your local ntp.conf?</strong></li>
+</ul>
+
+<p>Having 3 or more servers is ideal as it allows for NTP on a client to smooth out the jitter between NTP servers. Most distributions default to a minimum of 4.</p>
+
+<ul>
+<li><strong>What does the column ‘reach’ mean in ntpq -p output?</strong></li>
+</ul>
+
+<p>Reach is a base 10 number representing how many successful connections have been made to a particular NTP server.</p>
+
+<p>Reach is actually tracked by 8 octal bits which are constantly left shifted. Each successful connection left shifts the reach number, and sets the rightmost bit to 1. Each failed connection does the same left shift, and sets the rightmost bit to 0.</p>
+
+<p>The sum of the bit values is represented in decimal form, and is a quick overview of how many successful connections of the past 8 connections have been made to an NTP server.</p>
+
+<p>Source: <a href="https://www.linuxjournal.com/article/6812" target="_blank">1</a></p>
+
+<ul>
+<li><strong>You need to upgrade kernel at 100-1000 servers, how you would do this?</strong></li>
+</ul>
+
+<p>The easiest way to do this is by running an Ansible playbook with sudo to upgrade the kernel and providing the 1,000 servers as the inventory.</p>
+
+<p>On a Debian based system this would be (simplified):</p>
+
+<ol>
+<li><code>sudo apt update</code></li>
+<li><code>sudo apt dist-upgrade -y --force-confdef --force-confold</code></li>
+<li><code>sudo reboot</code></li>
+</ol>
+
+<p>This gets considerably more complex when factoring in servers that depend on other servers, or gracefully shutting down services, or doing particular subsets of servers in a particular manner to maintain quorum in a cluster.</p>
+
+<ul>
+<li><strong>How can you get Host, Channel, ID, LUN of SCSI disk?</strong></li>
+</ul>
+
+<p>Assuming the SCSI disk is actually connected then all of this information can be found with <code>cat /proc/scsi/scsi</code></p>
+
+<p>Source: <a href="https://www.thegeekdiary.com/how-to-identifymatch-lun-presented-from-san-with-underlying-os-disk/" target="_blank">1</a></p>
+
+<ul>
+<li><strong>How can you limit process memory usage?</strong></li>
+</ul>
+
+<p>A quick way to do this is to run `timeout -m</p>
+
+<ul>
+<li><strong>What is bash quick substitution/caret replace(^x^y)?</strong></li>
+</ul>
+
+<p>@!#$</p>
+
+<ul>
+<li><strong>Do you know of any alternative shells? If so, have you used any?</strong></li>
+</ul>
+
+<p>I’ve heard of shells like zsh, ksh, fish. I haven’t been convinced to try any.</p>
+
+<ul>
+<li><strong>What is a tarpipe (or, how would you go about copying everything, including hardlinks and special files, from one server to another)?</strong></li>
+</ul>
+
+<p>I would use <code>rsync -avzH /source/dir remote.example.com:/destination/dir</code> to copy everything including hardlinks and special files from one server to another.</p>
+
+<ul>
+<li><strong>How can you tell if the httpd package was already installed?</strong></li>
+</ul>
+
+<p><code>httpd</code> is the name for the Apache webserver on Red Hat based systems.</p>
+
+<p>So <code>yum list installed</code> is a good start.</p>
+
+<ul>
+<li><strong>How can you list the contents of a package?</strong></li>
+</ul>
+
+<p><code>dpkg -c filename.deb</code> will list the contents of the Debian package.</p>
+
+<p><code>rpm2cpio filename.rpm | cpio -idmv</code></p>
+
+<p>This will extract the contents of an RPM package. Since RPM packages are essentially CPIO archives the <code>rpm2cpio</code> utility will first convert the rpm file to a CPIO archive (via STDOUT) and then we pipe into <code>cpio</code> to actually unpack the archive.</p>
+
+<ul>
+<li><strong>How can you determine which package is better: openssh-server-5.3p1-118.1.el6_8.x86_64 or openssh-server-6.6p1-1.el6.x86_64 ?</strong></li>
+</ul>
+
+<p>These packages are following the RPM naming convention.</p>
+
+<p>The name of the package is <code>openssh-server</code>. The versions are <code>5.3p1-118.1.el6_8</code> and <code>6.6p1-1.el6</code>. The version differences are the actual version difference (5.3p1 vs 6.6p1), the OS version (RHEL 6.8 vs RHEL 6), They both use the <code>x86_64</code> OS architecture.</p>
+
+<p>If we follow the principle of “newer is better” then the second option is “better”.</p>
+
+<p>Source: <a href="https://access.redhat.com/discussions/1434473" target="_blank">1</a></p>
+
+<ul>
+<li><strong>Can you explain to me the difference between block based, and object based storage?</strong></li>
+</ul>
+
+<p>Block based storage is the most common type of storage. Data is written (mostly) sequentially to a disk in defined block sizes (such as 4Kb). The data has a minimal amount of metadata, such as which sector on the disk it starts, and where the next block of the contiguous piece of data is found.</p>
+
+<p>Object based storage is a way of storing chunks of data in their entirety with more ability to label that storage with metadata. An object does not need to be a direct 1:1 mapping between files and objects. An object can contain many files, or even portions of files. Instead of organizing objects into a hierarchy, the data store is “flat” and each object is accessed using a globally unique identifier. The metadata is the key to differentiate between objects.</p>
+
+<p>The benefit of object based storage is in the way data is written. An entire object needs to be written at once, and it is possible to rely on a distributed system with eventual consistency in order to ensure that the entire object is created or updated. This can make a write operation much more heavy than a block based storage system, however, getting rid of the need for transactions allows for distribution of the object to be much easier. This solves a fundamental scaling problem.</p>
+
+<p>A great use case for needing to store enormous amounts of data where the access to that data is distributed in many geographic locations, is a CDN. In fact, this website is powered by block storage. It is static HTML content stored in an AWS S3 bucket, and served over AWS Cloudfront. You can see how I did it <a href="https://thaniri.com/blog/2019-11-11-deploying-this-static-website/" target="_blank">here</a></p>
+
+<p>Sources: <a href="https://www.druva.com/blog/object-storage-versus-block-storage-understanding-technology-differences/" target="_blank">1</a>, <a href="https://cloudian.com/blog/object-storage-vs-block-storage/" target="_blank">2</a>, <a href="https://cloudacademy.com/blog/object-storage-block-storage/" target="_blank">3</a></p>
+
+<h2 id="reflection">Reflection</h2>
+
+<p>This set of questions was considerably more difficult than the previous one. There were some things that I was not that bothered by not knowing. Things like knowing the RPM package naming convention or SCSI trivia. I also was not bothered by needing to search up certain trivia such as the sticky bit. Lots of information I know exists, but I don’t memorize exactly every single detail about. Obviously because this exercise is as part of interview preparation I need to brush up on some things (like SOA DNS records) to be able to rattle off the information and look smart, but I know enough about DNS that an internet search will quickly fill in anything that I have momentarily forgotten or half remembered.</p>
+
+<p>Despite that, this exercise has revealed a large gap in my Linux knowledge. My next study step will be to learn more about the internals of the Linux kernel and even spend time learning a low level programming language like C or Rust. The questions about system calls and process states specifically seemed to be pretty fundamental knowledge that I was missing. As a pretty successful <a href="https://yaml.engineering/" target="_blank">YAML engineer</a>, this is not the type of information I use in my day-to-day, but I have greater ambitions than to just keep using applications and generating YAML config files for them. I don’t even like YAML.</p>
+
+<p>The next step of my learning journey will include studying these materials:</p>
+
+<ol>
+<li><a href="https://github.com/0xAX/linux-insides/blob/master/SUMMARY.md" target="_blank">Linux Insides</a></li>
+<li><a href="https://www.amazon.ca/Linux-Kernel-Development-Robert-Love/dp/0672329468" target="_blank">Linux Kernel Development</a></li>
+<li><a href="https://www.bcit.ca/study/courses/comp2511" target="_blank">Procedural Programming in C</a></li>
+</ol>
+
+</div>
+
+  
+<footer class="entry-footer">
+  <div class="container sep-before"><div class="tags"><svg class="icon" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" aria-hidden="true">
+  
+  <path d="M20.59,13.41l-7.17,7.17a2,2,0,0,1-2.83,0L2,12V2H12l8.59,8.59A2,2,0,0,1,20.59,13.41Z"></path>
+  <line x1="7" y1="7" x2="7" y2="7"></line>
+  
+</svg>
+<span class="screen-reader-text">Tags: </span><a class="tag" href="https://thaniri.com/tags/linux/">linux</a>, <a class="tag" href="https://thaniri.com/tags/sysadmin/">sysadmin</a>, <a class="tag" href="https://thaniri.com/tags/interview/">interview</a></div>
+
+  </div>
+</footer>
+
+
+</article>
+
+<nav class="entry-nav">
+  <div class="container"><div class="prev-entry sep-before">
+      <a href="https://thaniri.com/blog/2019-12-29-reflection-on-2019/">
+        <span aria-hidden="true"><svg class="icon" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" aria-hidden="true">
+  
+  <line x1="20" y1="12" x2="4" y2="12"></line>
+  <polyline points="10 18 4 12 10 6"></polyline>
+  
+</svg>
+ Previous</span>
+        <span class="screen-reader-text">Previous post: </span>Reflection On 2019</a>
+    </div><div class="next-entry sep-before">
+      <a href="https://thaniri.com/blog/2020-20-05-heromarine-reynor-tvz-tsl5/">
+        <span class="screen-reader-text">Next post: </span>HeroMarine vs Reynor TSL5 Round 2 Analysis<span aria-hidden="true">Next <svg class="icon" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" aria-hidden="true">
+  
+  <line x1="4" y1="12" x2="20" y2="12"></line>
+  <polyline points="14 6 20 12 14 18"></polyline>
+  
+</svg>
+</span>
+      </a>
+    </div></div>
+</nav>
+
+
+
+
+      </main>
+
+      <footer id="footer" class="footer">
+        <div class="container sep-before"><section class="widget widget-social_menu sep-after"><nav aria-label="Social Menu">
+    <ul><li>
+        <a href="https://github.com/thaniri" target="_blank" rel="noopener">
+          <span class="screen-reader-text">Open Github account in new tab</span><svg class="icon" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" aria-hidden="true">
+  
+  <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
+  
+</svg>
+</a>
+      </li><li>
+        <a href="https://twitter.com/thaniri" target="_blank" rel="noopener">
+          <span class="screen-reader-text">Open Twitter account in new tab</span><svg class="icon" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" aria-hidden="true">
+  
+  <path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"></path>
+  
+</svg>
+</a>
+      </li><li>
+        <a href="mailto:marek.slabicki%20[at]%20thaniri.com" target="_blank" rel="noopener">
+          <span class="screen-reader-text">Contact via Email</span><svg class="icon" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" aria-hidden="true">
+  
+  <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+  <polyline points="22,6 12,13 2,6"></polyline>
+  
+</svg>
+</a>
+      </li><li>
+        <a href="https://linkedin.com/in/thaniri" target="_blank" rel="noopener">
+          <span class="screen-reader-text">Open Linkedin account in new tab</span><svg class="icon" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" aria-hidden="true">
+  
+  <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path>
+  <rect x="2" y="9" width="4" height="12"></rect>
+  <circle cx="4" cy="4" r="2"></circle>
+  
+</svg>
+</a>
+      </li><li>
+        <a href="https://www.buymeacoffee.com/thaniri" target="_blank" rel="noopener">
+          <span class="screen-reader-text">Open Bmac account in new tab</span><svg class="icon" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" aria-hidden="true">
+  
+  <path d="M20.998 7.001h-4.199v-2.099c0-1.933-3.76-3.499-8.398-3.499s-8.398 1.567-8.398 3.499v13.996c0 1.933 3.76 3.499 8.398 3.499s8.398-1.567 8.398-3.499v-2.099h4.199c0.773 0 1.4-0.627 1.4-1.4v-6.998c0-0.773-0.627-1.4-1.4-1.4zM3.853 5.654c-0.809-0.267-1.299-0.552-1.562-0.752 0.262-0.2 0.753-0.486 1.562-0.752 1.267-0.418 2.882-0.647 4.548-0.647s3.28 0.23 4.548 0.647c0.809 0.267 1.299 0.552 1.562 0.752-0.262 0.2-0.753 0.486-1.562 0.752-1.267 0.418-2.882 0.647-4.548 0.647s-3.28-0.23-4.548-0.647zM19.598 13.999h-2.799v-4.199h2.799v4.199z"></path>
+  
+</svg>
+</a>
+      </li></ul>
+  </nav>
+</section><div class="copyright">
+  <p> © 2018-2020 Marek Slabicki </p>
+</div>
+
+        </div>
+      </footer>
+
+    </div>
+  </div><script>window.__public_path__='\/assets\/js\/'</script>
+
+<script src="./file_types2_files/main.59f76c44.js.download"></script><script src="./file_types2_files/custom.js.download"></script>
+
+
+
+
+
+</body></html>

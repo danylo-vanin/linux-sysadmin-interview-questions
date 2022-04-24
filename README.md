@@ -526,7 +526,7 @@ Any number of hard links, and thus any number of names, can be created for any f
 
 Soft links is a special kind of file that points to another file, much like a shortcut. Unlike a hard link, a symbolic link does not contain the data in the target file. It simply points to another entry somewhere in the file system. This difference gives symbolic links certain qualities that hard links do not have, such as the ability to link to directories, or to files on remote computers networked through NFS. Also, when you delete a target file, symbolic links to that file become unusable, whereas hard links preserve the contents of the file. 
 
-`$ ln -s file softlink``
+`$ ln -s file softlink`
 
 # Differences:
 
@@ -571,44 +571,322 @@ A directory is a list of inodes with their assigned names. The list includes an 
 
 ```
 * How to force/trigger a file system check on next reboot?
+```sh
+# This procedure allows you to schedule a file system check during the next restart of the system by creating a blank file, named forcefsck, that resides in the / directory. The presence of the /forcefsck file causes the system to perform a file system check the next time the system boots.
+
+$ touch /forcefsck
+
+# If you want to restart the system at this time, type the following command:
+$ reboot
+
+# Note: The /forcefsck file is deleted as the system boots and does not remain for subsequent restarts.
+
+```
 * What is SNMP and what is it used for?
+TODO: learn more
+```
+Simple Network Management Protocol (SNMP) is a networking protocol used for the management and monitoring of network-connected devices in Internet Protocol networks. The SNMP protocol is embedded in multiple local devices such as routers, switches, servers, firewalls, and wireless access points accessible using their IP address.
+```
 * What is a runlevel and how to get the current runlevel?
+
+```sh
+# A runlevel is an operating state on a Unix and Unix-based operating system that is preset on the Linux-based system. Runlevels are numbered from zero to six.
+
+# Runlevels determine which programs can execute after the OS boots up. The runlevel defines the state of the machine after boot.
+
+# Systems administrators set the default runlevel of a system according to their needs, or use the runlevel command to find out the machine's current runlevel to assess a system. For example, the runlevel can indicate whether or not the system's network is operational.
+
+# Runlevel 0 = shuts down the system
+# Runlevel 1 = single-user mode
+# Runlevel 2 = multi-user mode without networking
+# Runlevel 3 = multi-user mode with networking
+# Runlevel 4 = user-definable
+# Runlevel 5 = multi-user mode with networking
+# Runlevel 6 = reboots the system to restart it
+
+$ runlevel
+
+$ who -r
+
+# There is a newer version of runlevels that consist of systemd targets, which is a method of starting up Linux-based systems.
+
+# Runlevel is a mode of operation in OS, and a runlevel represents the different system state of a Linux system. When the Linux system boots, the kernel is initialized , and then enters one (and only one) runlevel. When a service starts, it will try to start all the services that are associated with that runlevel.
+
+# In general, when a computer enters runlevel 0, the system shuts down all running processes, unmounts all file systems, and powers off.
+
+# When it enters runlevel 6, it reboots.
+
+# The intermediate runlevels (1-5) differ in terms of which drives are mounted, and which network services are started. Default runlevels are typically 3, 4, or 5.
+
+# Runlevel 1 is reserved for single-user mode-a state where only a single user can log in to the system. Generally, few processes are started in single-user mode, so it is a very useful runlevel for diagnostics when a system won't fully boot. Even in the default GRUB menu we will notice a recovery mode option that boots us into runlevel 1.
+
+# In other words, runlevels define what tasks can be accomplished in the current state (or runlevel) of a Linux system. Every Linux system supports three basic runlevels, plus one or more runlevels for normal operation.
+
+# Lower run levels are useful for maintenance or emergency repairs, since they usually don't offer any network services at all.
+
+
+```
 * What is SSH port forwarding?
+```
+SSH port forwarding, or TCP/IP connection tunneling, is a process whereby a TCP/IP connection that would otherwise be insecure is tunneled through a secure SSH link, thus protecting the tunneled connection from network attacks. Port forwarding can be used to establish a form of a virtual private network (VPN).
+```
 * What is the difference between local and remote port forwarding?
+[LINK](https://linuxize.com/post/how-to-setup-ssh-tunneling)
+[LINK-2](http://dirk-loss.de/ssh-port-forwarding.htm)
+```sh
+# There are three types of SSH port forwarding:
+
+# - Local Port Forwarding. - Forwards a connection from the client host to the SSH server host and then to the destination host port.
+$ ssh -L [LOCAL_IP:]LOCAL_PORT:DESTINATION:DESTINATION_PORT [USER@]SSH_SERVER
+
+# - Remote Port Forwarding. - Forwards a port from the server host to the client host and then to the destination host port.
+$ ssh -R [REMOTE:]REMOTE_PORT:DESTINATION:DESTINATION_PORT [USER@]SSH_SERVER
+
+```
 * What are the steps to add a user to a system without using useradd/adduser?
+```sh
+# To create a new account manually, follow these steps:
+
+# 1. Edit /etc/passwd with vipw and add a new line for the new account. Be careful with the syntax. Do not edit directly with an editor. vipw locks the file, so that other commands won't try to update it at the same time. You should make the password field be `*', so that it is impossible to log in.
+username:password:UID:GID:Comments:Home_Directory:Login Shell
+
+# 2. Similarly, edit /etc/group with vigr, if you need to create a new group as well.
+
+# 3. Create the home directory of the user with mkdir.
+
+# 4. Copy the files from /etc/skel to the new home directory.
+
+# 5. Fix ownerships and permissions with chown and chmod. The -R option is most useful. The correct permissions vary a little from one site to another, but usually the following commands do the right thing:
+
+cd /home/newusername
+chown -R username.group .
+chmod -R go=u,go-w .
+chmod go= .
+
+```
 * What is MAJOR and MINOR numbers of special files?
+```sh
+# Doing a ls -l /dev/* will show something along the lines of
+crw-rw---T+ 1 root audio 116, 33 sept. 21 09:19 timer
+
+# The 116, 33 are the major and the minor of this specific device.
+
+# Tha major sets the type of the device, usually the driver associated with it. The minor list the first, second, third, ... device of that type.
+```
 * Describe the mknod command and when you'd use it.
+```md
+
+# Answer 1
+
+mknod was originally used to create the character and block devices that populate /dev/. Nowadays software like udev automatically creates and removes device nodes on the virtual filesystem when the corresponding hardware is detected by the kernel, but originally /dev was just a directory in / that was populated during install.
+
+So yes, in case of a near complete disaster causing the /dev virtual filesystem not to load and/or udev failing spectacularly, using mknod to painstakingly repopulate at least a rudimentary device tree to get something back up can be done... But yeah, that's sysadmin horror story time. Personally, I recommend a rescue USB stick or CD.
+
+# Answer 2
+You can make a named pipe with it.
+
+I use it with one program to read from it, and another one to write into it.
+
+```
 * Describe a scenario when you get a "filesystem is full" error, but 'df' shows there is free space.
+```
+The filesystem can run out of inodes, 'df -i' will show that.
+```
 * Describe a scenario when deleting a file, but 'df' not showing the space being freed.
+```sh
+# Deleting the filename doesn't actually delete the file. Some other process is holding the file open, causing it to not be deleted; restart or kill that process to release the file.
+
+# Use
+lsof +L1
+# to find out which process is using a deleted (unlinked) file.
+
+$ sudo kill -9 ${PID}
+
+```
 * Describe how 'ps' works.
-* What happens to a child process that dies and has no parent process to wait for it and what’s bad about this?
+```
+Linux provides us a utility called ps for viewing information related with the processes on a system which stands as abbreviation for “Process Status”. ps command is used to list the currently running processes and their PIDs along with some other information depends on different options. It reads the process information from the virtual files in /proc file-system.
+```
+* What happens to a child process that dies and has no parent process to wait for it and what’s bad about this? What is a zombie process and what could be the cause of it?
+```
+When a child exits, some process must wait on it to get its exit code. That exit code is stored in the process table until this happens. The act of reading that exit code is called "reaping" the child. Between the time a child exits and is reaped, it is called a zombie. (The whole nomenclature is a bit gruesome when you think about it; I recommend not thinking about it too much.)
+
+Zombies only occupy space in the process table. They take no memory or CPU. However, the process table is a finite resource, and excessive zombies can fill it, meaning that no other processes can launch. Beyond that, they are bothersome clutter, and should be strongly avoided.
+
+If a process exits with children still running (and doesn't kill its children; the metaphor continues to be bizarre), those children are orphans. Orphaned children are immediately "adopted" by init (actually, I think most people call this "reparenting," but "adoption" seems to carry the metaphor better). An orphan is just a process. It will use whatever resources it uses. It is reasonable to say that it is not an "orphan" at all since it has a parent, but I've heard them called that often.
+
+init automatically reaps its children (adopted or otherwise). So if you exit without cleaning up your children, then they will not become zombies (at least not for more than a moment).
+
+But long-lived zombies exist. What are they? They're the former children of an existing process that hasn't reaped them. The process may be hung. Or it may be poorly written and forgets to reap its children. Or maybe it's overloaded and hasn't gotten around to it. Or whatever. But for some reason, the parent process continues to exist (so they aren't orphans), and they haven't been waited on, so they live on as zombies in the process table.
+
+So if you see zombies for longer than a moment, then it means that there is something wrong with the parent process, and something should be done to improve that program.
+```
 * Explain briefly each one of the process states.
+```
+In Linux, a process is an instance of executing a program or command. While these processes exist, they’ll be in one of the five possible states:
+
+Running or Runnable (R)
+Uninterruptible Sleep (D)
+Interruptable Sleep (S)
+Stopped (T)
+Zombie (Z)
+```
 * How to know which process listens on a specific port?
-* What is a zombie process and what could be the cause of it?
+```sh
+$ netstat -ltnp | grep -w ':80' 
+
+$ lsof -i :80
+
+$ fuser 80/tcp
+
+```
 * You run a bash script and you want to see its output on your terminal and save it to a file at the same time. How could you do it?
+```sh
+# 2>&1 redirects standard error to standard output, and tee sends its standard input to standard output and the file.
+
+update-client 2>&1 | tee my.log
+```
 * Explain what echo "1" > /proc/sys/net/ipv4/ip_forward does.
+```sh
+# It temporarily turns ip forwarding on
+# Enabling IP forwarding on your machine tells her, when she receives a packet not destined to her, to forward it to the destination (or, better, the next hop) instead of dropping it. In this case, your machine works as a gateway to that specific destination.
+```
 * Describe briefly the steps you need to take in order to create and install a valid certificate for the site https://foo.example.com.
-* Can you have several HTTPS virtual hosts sharing the same IP?
+
+1. Install certbot tool [(Installation process link)](https://certbot.eff.org/)
+2. Generate TLS Certificate using certbot tool. 
+```sh
+    # sample command for wildcard certificate generation
+    $ certbot certonly --manual -d "*.anthos-tf.osdu.club"
+```
+3. Before receiving certificate, you will have to add DNS TXT record provided to you by certbot with a certain value.
+Sample TXT Record name: ```_acme-challenge.anthos-tf.osdu.club.```
+4. Put generated certificate (```fullchain.pem```) and private key (```privkey.pem```) files into ```./cert``` folder, they will be used during ASM installation. 
+
+* [TODO] Can you have several HTTPS virtual hosts sharing the same IP?
+```
+You need to use SSL extension named Server Name Indication (SNI). This extension will allow server to determine for which named virtual host request was designated for, and patch it through accordingly.
+```
 * What is a wildcard certificate?
+```
+In computer networking, a wildcard certificate is a public key certificate which can be used with multiple sub-domains of a domain.
+
+A SSL/TLS Wildcard certificate is a single certificate with a wildcard character (*) in the domain name field. This allows the certificate to secure multiple sub domain names (hosts) pertaining to the same base domain.
+```
 * Which Linux file types do you know?
+[TODO:READ MORE](https://www.geeksforgeeks.org/how-to-find-out-file-types-in-linux/)
+```
+In Linux/UNIX, Files are mainly categorized into 3 parts:
+
+1. Regular Files
+2. Directory Files
+3. Special Files
+```
 * What is the difference between a process and a thread? And parent and child processes after a fork system call?
+[READ-1](https://stackoverflow.com/questions/200469/what-is-the-difference-between-a-process-and-a-thread)
+[READ-2](https://www.baeldung.com/linux/process-vs-thread)
+[READ-3](https://linux.die.net/man/2/fork)
+```
+A thread shares the memory with the parent process and other threads within the process.
+A process has its own memory.
+
+Context switching between threads is less expensive due to shared memory.
+
+An application with several processes for its components can provide better memory utilization when memory is scarce. We can assign low priority to inactive processes in the application. This idle process is then eligible to be swapped to disk. This keeps the active components of the application responsive.
+```
 * What is the difference between exec and fork?
+![diff](./img/fork_vs_exec.png)
 * What is "nohup" used for?
+```
+Nohup (stands for no hangup) is a command that ignores the HUP signal. You might be wondering what the HUP signal is. It is basically a signal that is delivered to a process when its associated shell is terminated. Usually, when we log out, then all the running programs and processes are hangup or stopped. If we want to continue running the process even after logout or disconnection from the current shell, we can use the nohup command. It makes the processes immune to HUP signals in order to make the program run even after log out.
+```
 * What is the difference between these two commands?
  * ```myvar=hello```
  * ```export myvar=hello```
+ ```
+ Export is an instruction to the shell. It tells the shell to make this environment variable available to other programs executed from the same shell. Without the export, they are only available within the shell itself.
+ 
+ Exported variables are carried into the environment of commands executed by the shell that exported them, while non-exported variables are local to the current shell invocation.
+
+ set outputs the current environment, which includes any local non-exported variables. env is used to launch programs in a new environment, and with no arguments will output what that new environment would be. Since env is creating a new environment, only exported variables are brought through, as is the case for any program launched from that shell.
+ 
+ ```
 * How many NTP servers would you configure in your local ntp.conf?
+```
+The Network Time Protocol is a networking protocol for clock synchronization between computer systems over packet-switched, variable-latency data networks.
+
+Have at least four NTP servers. Each network system should have at least four NTP servers, and preferably more
+
+The most basic ntp.conf file will simply list 2 servers, one that it wishes to synchronize with, and a pseudo IP address for itself (in this case 127.127.1.0). The pseudo IP is used in case of network problems or if the remote NTP server goes down. NTP will synchronize against itself until the it can start synchronizing with the remote server again. It is recommended that you list at least 2 remote servers that you can synchronize against. One will act as a primary server and the other as a backup.
+
+```
 * What does the column 'reach' mean in ```ntpq -p``` output?
+[SOURCE](https://www.thegeekdiary.com/what-is-the-refid-in-ntpq-p-output/)
+```
+The reach column contains the results of the most recent eight NTP updates. If all eight are successful, this field will read 377.
+```
 * You need to upgrade kernel at 100-1000 servers, how you would do this?
+```
+The easiest way to do this is by running an Ansible playbook with sudo to upgrade the kernel and providing the 1,000 servers as the inventory.
+
+On a Debian based system this would be (simplified):
+
+sudo apt update
+sudo apt dist-upgrade -y --force-confdef --force-confold
+sudo reboot
+```
 * How can you get Host, Channel, ID, LUN of SCSI disk?
+```
+Assuming the SCSI disk is actually connected then all of this information can be found with cat /proc/scsi/scsi
+```
 * How can you limit process memory usage?
+```
+A quick way to do this is to run `timeout -m
+```
 * What is bash quick substitution/caret replace(^x^y)?
+```
+
+```
 * Do you know of any alternative shells? If so, have you used any?
+```
+I’ve heard of shells like zsh, ksh, fish.
+```
 * What is a tarpipe (or, how would you go about copying everything, including hardlinks and special files, from one server to another)?
+```
+I would use rsync -avzH /source/dir remote.example.com:/destination/dir to copy everything including hardlinks and special files from one server to another.
+```
 * How can you tell if the httpd package was already installed?
+```
+httpd is the name for the Apache webserver on Red Hat based systems.
+
+So yum list installed is a good start.
+```
 * How can you list the contents of a package?
+```sh
+dpkg -c filename.deb # will list the contents of the Debian package.
+
+rpm2cpio filename.rpm | cpio -idmv
+
+# This will extract the contents of an RPM packag
+```
 * How can you determine which package is better: openssh-server-5.3p1-118.1.el6_8.x86_64 or openssh-server-6.6p1-1.el6.x86_64 ?
+```
+These packages are following the RPM naming convention.
+
+The name of the package is openssh-server. The versions are 5.3p1-118.1.el6_8 and 6.6p1-1.el6. The version differences are the actual version difference (5.3p1 vs 6.6p1), the OS version (RHEL 6.8 vs RHEL 6), They both use the x86_64 OS architecture.
+
+If we follow the principle of “newer is better” then the second option is “better”.
+```
 * Can you explain to me the difference between block based, and object based storage?
+```
+Block based storage is the most common type of storage. Data is written (mostly) sequentially to a disk in defined block sizes (such as 4Kb). The data has a minimal amount of metadata, such as which sector on the disk it starts, and where the next block of the contiguous piece of data is found.
+
+Object based storage is a way of storing chunks of data in their entirety with more ability to label that storage with metadata. An object does not need to be a direct 1:1 mapping between files and objects. An object can contain many files, or even portions of files. Instead of organizing objects into a hierarchy, the data store is “flat” and each object is accessed using a globally unique identifier. The metadata is the key to differentiate between objects.
+
+The benefit of object based storage is in the way data is written. An entire object needs to be written at once, and it is possible to rely on a distributed system with eventual consistency in order to ensure that the entire object is created or updated. This can make a write operation much more heavy than a block based storage system, however, getting rid of the need for transactions allows for distribution of the object to be much easier. This solves a fundamental scaling problem.
+
+A great use case for needing to store enormous amounts of data where the access to that data is distributed in many geographic locations, is a CDN. In fact, this website is powered by block storage. It is static HTML content stored in an AWS S3 bucket, and served over AWS Cloudfront. You can see how I did it here
+```
 
 #### [[⬆]](#toc) <a name='hard'>Hard Linux Questions:</a>
 
