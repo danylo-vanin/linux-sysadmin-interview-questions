@@ -49,9 +49,17 @@ A collection of linux sysadmin/devops interview questions. Feel free to contribu
 * What is SMTP? Give the basic scenario of how a mail message is delivered via SMTP.
 * What is RAID? What is RAID0, RAID1, RAID5, RAID10?
 * What is a level 0 backup? What is an incremental backup?
+```sh
+Types of backup:
+- incremental 
+- full
+- differential
+```
 * Describe the general file system hierarchy of a Linux system.
 * Which difference have between public and private SSH key?
-
+```sh
+Public key is shared across unprotected network. It is used for encrypting data in asynchronous encryption.
+```
 
 #### [[⬆]](#toc) <a name='simple'>Simple Linux Questions:</a>
 
@@ -72,44 +80,360 @@ A collection of linux sysadmin/devops interview questions. Feel free to contribu
 * What does the permission 0750 on a directory mean?
 * How to add a new system user without login permissions?
 * How to add/remove a group from a user?
+```sh
+# remove user from group
+usermod -aG <group> <user>
+```
+
 * What is a bash alias?
+```sh
+#  Alias = short version of command, shortcut command for a longer command.
+alias alias_name="command_to_run"
+# To make the alias persistent you need to declare it in the ~/.bash_profile or ~/.bashrc file.
+
+# You can create alias with parameters (function):
+function_name () {
+  [commands]
+}
+# The passed parameters are $1, $2, $3, etc.,
+
+```
+* Why is `--` used before argument?
+```sh
+-- - makes sure you’re not accidentally passing an extra argument to the command. For example, if you try to create a directory that starts with - (dash) without using -- the directory name will be interpreted as a command argument.
+
+```
+
 * How do you set the mail address of the root/a user?
+```sh
+# => Way #1
+vi /etc/aliases
+# find in file:
+root: system@mydmomain.com
+# add email
+root: system@mydomain.com, linux@mydomain.com
+# run command to compile aliases file
+newaliases
+# restart postfix server
+service postfix restart
+
+# => Way #2
+# We can simply create .forward file to the folder root and add email address there.
+vi /root/.forward
+# Restart postfix server
+service postfix restart
+```
 * What does CTRL-c do?
+```sh
+Ctrl+C kills the process with SIGINT, which terminates the process unless it is handled/ignored by the target, so you can't resume it.
+```
 * What does CTRL-d do?
+```sh
+The ctrl-d sequence closes the terminal window or end terminal line input.
+```
 * What does CTRL-z do?
+```sh
+Control+Z is used for suspending a process by sending it the signal SIGSTOP, which cannot be intercepted by the program
+If you suspend a process, this will show up in the shell to tell you it has been suspended
+```
 * What is in /etc/services?
+```sh
+# It's a database of well-known ports with symbolic names; any program that can take a port number # should be able to take the appropriate symbolic name instead. 
+
+# The format of the /etc/services is simple: 
+service_name port/protocol aliases
+# Example 
+smtp 25/tcp mail
+ssh 22/tcp
+ftp 21/tcp
+ftp-data 20/tcp
+telnet 23/tcp
+
+```
 * How to redirect STDOUT and STDERR in bash? (> /dev/null 2>&1)
+```sh
+# redirect STDOUT 
+command 1> file
+
+# redirect STDERR
+command 2> file
+
+# redirect STDERR to STDOUT
+command 2>&1
+# or 
+command &> filename
+```
 * What is the difference between UNIX and Linux.
+
+| Linux | Unix |
+| :---: | :---: |
+| Linux refers to the kernel of the GNU/Linux operating system. More generally, it refers to the family of derived distributions. | Unix refers to the original operating system developed by AT&T. More generally, it refers to family of derived operating systems. |
+| It is an open-source operating system which is freely available to everyone. | It is an operating system which can be only used by its copyrighters. |
+| It has different distros like Ubuntu, Redhat, Fedora, etc |  IBM AIX, HP-UX and Sun Solaris. |
+| Linux is just the kernel. | Unix is a complete package of Operating system. |
+| text | text |
 * What is the difference between Telnet and SSH?
+```sh
+#1 
+Telnet is the standard TCP/IP protocol for virtual terminal service, while SSH or Secure Shell is a program to log into another computer over a network to execute commands in a remote machine.
+
+#2 
+Telnet is vulnerable to security attacks while SSH helps you to overcome many security issues of Telnet .
+
+#3 
+Telnet uses port 23, which was designed specifically for local area networks, whereas SSH runs on port 22 by default.
+
+#4 
+Telnet transfers the data in plain text while in SSH data is sent in encrypted format via a secure channel.
+```
 * Explain the three load averages and what do they indicate. What command can be used to view the load averages?
+```sh
+To see load averages numbers you can run commands:
+$ top (see load average section)
+
+$ cat /proc/loadavg
+1.00 1.01 0.98 2/198 21533
+
+$ uptime
+18:37:28 up 4 days,  7:17,  4 users,  load average: 1.00, 1.01, 0.98
+
+The three numbers after load average -  1.00, 1.01, 0.98 - represent the 1-, 5-, and 15-minute load averages on the machine. A system load average is equal to the average number of processes in a runnable or uninterruptible state. Runnable processes are either currently using the CPU or waiting to do so, and uninterruptible processes are waiting for I/O.
+```
 * Can you name a lower-case letter that is not a valid option for GNU ```ls```?
+```sh
+# j, y
+Mandatory arguments to long options are mandatory for short options too.
+  -a, --all                  do not ignore entries starting with .
+  -A, --almost-all           do not list implied . and ..
+      --author               with -l, print the author of each file
+  -b, --escape               print C-style escapes for nongraphic characters
+      --block-size=SIZE      with -l, scale sizes by SIZE when printing them;
+                               e.g., '--block-size=M'; see SIZE format below
+  -B, --ignore-backups       do not list implied entries ending with ~
+  -c                         with -lt: sort by, and show, ctime (time of last
+                               modification of file status information);
+                               with -l: show ctime and sort by name;
+                               otherwise: sort by ctime, newest first
+  -C                         list entries by columns
+      --color[=WHEN]         colorize the output; WHEN can be 'always' (default
+                               if omitted), 'auto', or 'never'; more info below
+  -d, --directory            list directories themselves, not their contents
+  -D, --dired                generate output designed for Emacs dired mode
+  -f                         do not sort, enable -aU, disable -ls --color
+  -F, --classify             append indicator (one of */=>@|) to entries
+      --file-type            likewise, except do not append '*'
+      --format=WORD          across -x, commas -m, horizontal -x, long -l,
+                               single-column -1, verbose -l, vertical -C
+      --full-time            like -l --time-style=full-iso
+  -g                         like -l, but do not list owner
+      --group-directories-first
+                             group directories before files;
+                               can be augmented with a --sort option, but any
+                               use of --sort=none (-U) disables grouping
+  -G, --no-group             in a long listing, do not print group names
+  -h, --human-readable       with -l and -s, print sizes like 1K 234M 2G etc.
+      --si                   likewise, but use powers of 1000 not 1024
+  -H, --dereference-command-line
+                             follow symbolic links listed on the command line
+      --dereference-command-line-symlink-to-dir
+                             follow each command line symbolic link
+                               that points to a directory
+      --hide=PATTERN         do not list implied entries matching shell PATTERN
+                               (overridden by -a or -A)
+      --hyperlink[=WHEN]     hyperlink file names; WHEN can be 'always'
+                               (default if omitted), 'auto', or 'never'
+      --indicator-style=WORD  append indicator with style WORD to entry names:
+                               none (default), slash (-p),
+                               file-type (--file-type), classify (-F)
+  -i, --inode                print the index number of each file
+  -I, --ignore=PATTERN       do not list implied entries matching shell PATTERN
+  -k, --kibibytes            default to 1024-byte blocks for disk usage;
+                               used only with -s and per directory totals
+  -l                         use a long listing format
+  -L, --dereference          when showing file information for a symbolic
+                               link, show information for the file the link
+                               references rather than for the link itself
+  -m                         fill width with a comma separated list of entries
+  -n, --numeric-uid-gid      like -l, but list numeric user and group IDs
+  -N, --literal              print entry names without quoting
+  -o                         like -l, but do not list group information
+  -p, --indicator-style=slash
+                             append / indicator to directories
+  -q, --hide-control-chars   print ? instead of nongraphic characters
+      --show-control-chars   show nongraphic characters as-is (the default,
+                               unless program is 'ls' and output is a terminal)
+  -Q, --quote-name           enclose entry names in double quotes
+      --quoting-style=WORD   use quoting style WORD for entry names:
+                               literal, locale, shell, shell-always,
+                               shell-escape, shell-escape-always, c, escape
+                               (overrides QUOTING_STYLE environment variable)
+  -r, --reverse              reverse order while sorting
+  -R, --recursive            list subdirectories recursively
+  -s, --size                 print the allocated size of each file, in blocks
+  -S                         sort by file size, largest first
+      --sort=WORD            sort by WORD instead of name: none (-U), size (-S),
+                               time (-t), version (-v), extension (-X)
+      --time=WORD            with -l, show time as WORD instead of default
+                               modification time: atime or access or use (-u);
+                               ctime or status (-c); also use specified time
+                               as sort key if --sort=time (newest first)
+      --time-style=TIME_STYLE  time/date format with -l; see TIME_STYLE below
+  -t                         sort by modification time, newest first
+  -T, --tabsize=COLS         assume tab stops at each COLS instead of 8
+  -u                         with -lt: sort by, and show, access time;
+                               with -l: show access time and sort by name;
+                               otherwise: sort by access time, newest first
+  -U                         do not sort; list entries in directory order
+  -v                         natural sort of (version) numbers within text
+  -w, --width=COLS           set output width to COLS.  0 means no limit
+  -x                         list entries by lines instead of by columns
+  -X                         sort alphabetically by entry extension
+  -Z, --context              print any security context of each file
+  -1                         list one file per line.  Avoid '\n' with -q or -b
+```
+* What is ICMP protocol? Why do you need to use?
+```sh
+The Internet Control Message Protocol (ICMP) is a protocol that devices within a network use to communicate problems with data transmission. In this ICMP definition, one of the primary ways in which ICMP is used is to determine if data is getting to its destination and at the right time. This makes ICMP an important aspect of the error reporting process and testing to see how well a network is transmitting data. However, it can also be used to execute distributed denial-of-service (DDoS) attacks.
+```
+
 * What is a Linux kernel module?
 * Walk me through the steps in booting into single user mode to troubleshoot a problem.
 * Walk me through the steps you'd take to troubleshoot a 404 error on a web application you administer.
-* What is ICMP protocol? Why do you need to use?
 
 #### [[⬆]](#toc) <a name='medium'>Medium Linux Questions:</a>
 
 * What do the following commands do and how would you use them?
  * ```tee```
+ ```sh
+#  tee - read from standard input and write to standard output and files
+# For example you can use this command like this:
+$ echo "deb http://pkg.jenkins-ci.org/debian binary/" | sudo  tee -a /etc/apt/sources.list.d/jenkins.list
+ ```
  * ```awk```
+ ```sh
+# The awk is most useful when handling text files that are formatted in a predictable way. For instance, it is excellent at parsing and manipulating tabular data. It operates on a line-by-line basis and iterates through the entire file.
+# The awk syntax looks like this:
+awk '/search_pattern/ { action_to_take_on_matches; another_action; }' file_to_parse
+
+# For example you can use this command like this:
+$ awk '{print}' /etc/fstab
+ ```
  * ```tr```
+ ```sh
+# We can use tr for translating, or deleting, or squeezing repeated characters.
+# It will read from STDIN and write to STDOUT.
+
+# For example you can use this command like this:
+$ tr a-z A-Z
+$ tr '()' '{}'
+ ```
  * ```cut```
+ ```sh
+# The command cut is used for text processing.
+# We can use this command to extract portion of text from a file by selecting columns.
+cut OPTION... [FILE]...
+
+# For example you can use this command like this:
+# The example displays only the first field of each lines from /etc/passwd file using the field delimiter : (colon). In this case, the 1st field is the username.
+$ cut -d ':' -f 1 < /etc/passwd
+```
  * ```tac```
+ ```sh
+# tac (which is "cat" backwards) concatenate and print files in reverse
+# For example you can use this command like this:
+$ cat ok
+1
+2
+3
+
+$ tac ok
+3
+2
+1
+```
  * ```curl```
+ ```sh
+# Curl is a tool to transfer data from or to a server, using one of the supported protocols (DICT, FILE, FTP, FTPS, GOPHER, HTTP, HTTPS, IMAP, IMAPS, LDAP, LDAPS, POP3, POP3S, RTMP, RTSP, SCP, SFTP, SMTP, SMTPS, TELNET and TFTP).  The command is designed to work without user interaction.
+# For example you can use this command like this:
+$ curl https://example.com
+ ```
  * ```wget```
+ ```sh
+# Wget is a free utility for non-interactive download of files from the Web.
+# It supports HTTP, HTTPS, and FTP protocols, as well as retrieval through HTTP proxies.
+# Wget is non-interactive, meaning that it can work in the background, while the user is not logged on.
+# This allows you to start a retrieval and disconnect from the system, letting Wget finish the work.
+# By contrast, most of the Web browsers require constant user's presence, which can be a great hindrance when transferring a lot of data.
+# For example you can use this command like this:
+$ wget -S https://example.com
+ ```
  * ```watch```
+ ```sh
+# watch runs command repeatedly, displaying its output and errors (the first screenfull). This allows you to watch the program output change over time. By default, the program is run every 2 seconds. By default, watch will run until interrupted.
+# For example you can use this command like this:
+# To watch the contents of a directory change, you could use
+$ watch -d ls -l
+ ```
  * ```head```
+ ```sh
+# Print the first 10 lines of each FILE to standard output.
+# With more than one FILE, precede each with a header giving the file name.
+# With no FILE is read standard input.
+# For example you can use this command like this:
+# To print first 10 lines
+$ head /etc/passws
+ ```
  * ```tail```
+ ```sh
+# Print the last 10 lines of each FILE to standard output.
+# With more than one FILE, precede each with a header giving the file name.
+# With no FILE is read standard input.
+# For example you can use this command like this:
+# To print last 10 lines
+$ tail /etc/passws
+ ```
  * ```less```
+ ```sh
+# Less  is a program similar to more (1), but it has many more features.  Less does not have to read the entire input file before starting, so with large input files it starts up faster than text editors like vi
+ ```
+ * ```more```
+```sh
+# A simple terminal pager
+```
  * ```cat```
+ ```sh
+# Read file and print its content to standard output
+# Enumarate lines
+cat -n file 
+# Delete empty lines
+cat -s file
+# Concatenate files
+cat file1 file2 > result
+ ```
  * ```touch```
+ ```sh
+# Create file
+# Update the access and modification times of each FILE to the current time.
+$ touch file
+ ```
  * ```sar```
+ ```sh
+
+ ```
  * ```netstat```
  * ```tcpdump```
  * ```lsof```
 * What does an ```&``` after a command do?
+```sh
+# This is known as job control under unix. The & informs the shell to put the command in the background.
+# This means it continues to run the command but returns you to your shell to allows you to continue doing parallel commands and do not have to wait until the script is finished. If you forget to add & after command, you can stop the current running process with Ctrl-Z and continue it in the background with bg (or in the foreground with fg).
+```
 * What does ```& disown``` after a command do?
+```sh
+# & puts the job in the background, that is, makes it block on attempting to read input, and makes the shell not wait for its completion.
+
+# disown removes the process from the shell's job control, but it still leaves it connected to the terminal. One of the results is that the shell won't send it a SIGHUP. Obviously, it can only be applied to background jobs, because you cannot enter it when a foreground job is running.
+```
 * What is a packet filter and how does it work?
 * What is Virtual Memory?
 * What is swap and what is it used for?
