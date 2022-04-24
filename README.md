@@ -417,12 +417,43 @@ cat file1 file2 > result
 $ touch file
  ```
  * ```sar```
+ [TODO](https://rtfm.co.ua/linux-utilita-sar-opisanie-primery/)
  ```sh
+Входит в пакет sysstat, в которую так же включены:
 
+sar: сбор информации об активности системы;
+iostat: отчеты об использовании CPU и статистика I/O;
+mpstat: глобальная статистистика и отчеты по каждому процессу;
+pidstat: отчеты по процессам в Linux;
+sadf: отображение информации от sar в различных форматах;
+nfsiostat: статистика I/O для сетевых файловых систем;
+cifsiostat:статистика I/O для файловых систем CIFS.
+
+sar предоставляет данные по:
+
+- статистика CPU;
+- статистика CPU по отдельным процессам или пользователям;
+- использование памяти;
+- использование swap;
+- I/O активность системы;
+- переключения контекстов;
+- статистику сетевой активности;
+- предоставляет данные за указанный период времени.
  ```
  * ```netstat```
+ ```sh
+ command-line network utility that displays network connections for TCP, routing tables, network interfaces.
+ ```
  * ```tcpdump```
+ [TODO](https://danielmiessler.com/study/tcpdump/)
+ ```sh
+# tcpdump is the tool everyone should learn as their base for packet analysis.
+ ```
  * ```lsof```
+ [TODO](https://www.tecmint.com/10-lsof-command-examples-in-linux/)
+ ```sh
+ # lsof meaning ‘LiSt Open Files’ is used to find out which files are open by which process.
+ ```
 * What does an ```&``` after a command do?
 ```sh
 # This is known as job control under unix. The & informs the shell to put the command in the background.
@@ -435,8 +466,19 @@ $ touch file
 # disown removes the process from the shell's job control, but it still leaves it connected to the terminal. One of the results is that the shell won't send it a SIGHUP. Obviously, it can only be applied to background jobs, because you cannot enter it when a foreground job is running.
 ```
 * What is a packet filter and how does it work?
+```sh
+Packet filters act by inspecting the "packets" which are transferred between computers on the Internet. If a packet does not match the packet filter's set of filtering rules, the packet filter will drop.
+```
 * What is Virtual Memory?
+```sh
+In computing, virtual memory is a memory management technique that is implemented using both hardware and software. It maps memory addresses used by a program, called virtual addresses, into physical addresses in computer memory. Main storage as seen by a process or task appears as a contiguous address space or collection of contiguous segments. The operating system manages virtual address spaces and the assignment of real memory to virtual memory.
+```
 * What is swap and what is it used for?
+```sh
+Swap is a special type of memory.
+Swap space in Linux is used when the amount of physical memory (RAM) is full. If the system needs more memory resources and the RAM is full, inactive pages in memory are moved to the swap space. While swap space can help machines with a small amount of RAM, it should not be considered a replacement for more RAM. Swap space is located on hard drives, which have a slower access time than physical memory.
+Swapping is a useful technique that enables a computer to execute programs and manipulate data files larger than main memory. The operating system copies as much data as possible into main memory, and leaves the rest on the disk. When the operating system needs data from the disk, it exchanges a portion of data (called a page or segment) in main memory with a portion of data on the disk.
+```
 * What is an A record, an NS record, a PTR record, a CNAME record, an MX record?
 * Are there any other RRs and what are they used for?
 * What is a Split-Horizon DNS?
@@ -498,6 +540,9 @@ $ touch file
 * What does ```:(){ :|:& };:``` do on your system?
 * How do you catch a Linux signal on a script?
 * Can you catch a SIGKILL?
+```
+SIGKILL or signal 9 is one signal that you cannot trap and catch. The linux kernel immediately terminates any process sent this signal and no signal handling is performed. Since it will always terminate a program that is stuck, hung, or otherwise screwed up, it is tempting to think that it's the easy way out when you have to get something to stop and go away.
+```
 * What's happening when the Linux kernel is starting the OOM killer and how does it choose which process to kill first?
 * Describe the linux boot process with as much detail as possible, starting from when the system is powered on and ending when you get a prompt.
 * What's a chroot jail?
@@ -521,38 +566,100 @@ $ touch file
 #### [[⬆]](#toc) <a name='network'>Networking Questions:</a>
 
 * What is localhost and why would ```ping localhost``` fail?
+```
+A localhost is the standard hostname given to the address assigned to the loopback network interface. Translated into an IP address, a localhost is always designated as 127.0.0.1.
+Ping can fail if loopback interface is down, also it is possible to configure local iptables(firewall) in such a way as to drop all packets received on localhost.
+Also it is possible that icmp_echo is disable with sysctl net.ipv4.icmp_echo_ignore_all=1
+```
 * What is the similarity between "ping" & "traceroute" ? How is traceroute able to find the hops.
 * What is the command used to show all open ports and/or socket connections on a machine?
+```sh
+$ lsof -i
+$ netstat -natupx
+$ ss -lptuxa
+```
 * Is 300.168.0.123 a valid IPv4 address?
+```
+No, IPv4 addresses are canonically represented in dot-decimal notation, which consists of four decimal numbers, each ranging from 0 to 255, separated by dots, e.g., 172.16.254.1. Each part represents a group of 8 bits (octet) of the address. So 2 ** 8 = 256(255) is a max number for each octet.
+```
 * Which IP ranges/subnets are "private" or "non-routable" (RFC 1918)?
+```
+The Internet Assigned Numbers Authority (IANA) has reserved the following three blocks of the IP address space for private internets:
+     10.0.0.0        -   10.255.255.255  (10/8 prefix)
+     172.16.0.0      -   172.31.255.255  (172.16/12 prefix)
+     192.168.0.0     -   192.168.255.255 (192.168/16 prefix)
+```
 * What is a VLAN?
+```
+A virtual LAN (VLAN) is any broadcast domain that is partitioned and isolated in a computer network at the data link layer (OSI layer 2).
+To subdivide a network into virtual LANs, one configures a network switch or router. Simpler network devices can only partition per physical port (if at all), in which case each VLAN is connected with a dedicated network cable (and VLAN connectivity is limited by the number of hardware ports available). More sophisticated devices can mark packets through tagging, so that a single interconnect (trunk) may be used to transport data for multiple VLANs. Since VLANs share bandwidth, a VLAN trunk might use link aggregation and/or quality of service prioritization to route data efficiently.
+```
 * What is ARP and what is it used for?
+```
+The Address Resolution Protocol (ARP) is a protocol used for resolution of network layer addresses into link layer addresses, a critical function in multiple-access networks. ARP is used for mapping a network address (e.g. an IPv4 address) to a physical address like an Ethernet address (also named a MAC address).
+When we try to ping an IP address on our local network, say 192.168.1.2, our system has to turn the IP address 192.168.1.2 into a MAC address. This involves using ARP to resolve the address, hence its name.
+```
 * What is the difference between TCP and UDP?
+```
+TCP is connection-oriented protocol.
+UDP is connectionless protocol
+
+TCP provides delivery guarantee
+UDP is unreliable, it doesn't provide any delivery guarantee.
+
+TCP guarantees order of message
+UDP doesn't provide any ordering or sequencing guarantee
+
+TCP is slow
+UDP is fast
+
+TCP has bigger header than UDP
+```
 * What is the purpose of a default gateway?
+```
+A default gateway in computer networking is the node that is assumed to know how to forward packets on to other networks. Typically in a TCP/IP network, nodes such as servers, workstations and network devices each have a defined default route setting, (pointing to the default gateway), defining where to send packets for IP addresses for which they can determine no specific route. The gateway is by definition a router.
+```
 * What is command used to show the routing table on a Linux box?
+```sh
+# You can use one of this:
+$ route -n
+$ netstat -rn
+$ ip route list
+```
 * A TCP connection on a network can be uniquely defined by 4 things. What are those things?
+```
+remote-ip-address, remote-port, source-ip-address, source-port
+```
 * When a client running a web browser connects to a web server, what is the source port and what is the destination port of the connection?
+```
+destination port - is 80 for HTTP or 443 for HTTPS
+source port - will be random number from option net.ipv4.ip_local_port_range, by default it will be something like between 32768 and 61000 (around 28K source ports available (for a single destination IP:port))
+```
 * How do you add an IPv6 address to a specific interface?
 * You have added an IPv4 and IPv6 address to interface eth0. A ping to the v4 address is working but a ping to the v6 address gives you the response ```sendmsg: operation not permitted```. What could be wrong?
+```sh
+# This means that your server is not allowed to send ICMP packets.
+# Check firewall rules:
+$ ip6tables -P INPUT ACCEPT
+$ ip6tables -P OUTPUT ACCEPT
+$ ip6tables -P FORWARD ACCEPT
+```
 * What is SNAT and when should it be used?
+```
+Source Network Address Translation (SNAT) - changes the source address in IP header of a packet. It may also change the source port in the TCP/UDP headers. The typical usage is to change the a private (rfc1918) address/port into a public address/port for packets leaving your network.
+```
 * Explain how could you ssh login into a Linux system that DROPs all new incoming packets using a SSH tunnel.
 * How do you stop a DDoS attack?
 * How can you see content of an ip packet?
+```sh
+# You can use tcpdump\tshark to display captured packets in HEX and ASCII
+$ tcpdump -XX -i eth0
+$ tshark -i eth0 -x
+
+```
 * What is IPoAC (RFC 1149)?
 * What will happen when you bind port 0?
 
-
-
-#### [[⬆]](#toc) <a name='mysql'>MySQL questions:</a>
-
-* How do you create a user?
-* How do you provide privileges to a user?
-* What is the difference between a "left" and a "right" join?
-* Explain briefly the differences between InnoDB and MyISAM.
-* Describe briefly the steps you need to follow in order to create a simple master/slave cluster.
-* Why should you run "mysql_secure_installation" after installing MySQL?
-* How do you check which jobs are running?
-* How would you take a backup of a MySQL database?
 
 #### [[⬆]](#toc) <a name='devop'>DevOps Questions:</a>
 
