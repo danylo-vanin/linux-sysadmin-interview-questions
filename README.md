@@ -480,12 +480,96 @@ Swap space in Linux is used when the amount of physical memory (RAM) is full. If
 Swapping is a useful technique that enables a computer to execute programs and manipulate data files larger than main memory. The operating system copies as much data as possible into main memory, and leaves the rest on the disk. When the operating system needs data from the disk, it exchanges a portion of data (called a page or segment) in main memory with a portion of data on the disk.
 ```
 * What is an A record, an NS record, a PTR record, a CNAME record, an MX record?
+```
+Address Mapping records (A)The record A specifies IP address (IPv4) for given host. A records are used for conversion of domain names to corresponding IP addresses.
+
+IP Version 6 Address records (AAAA)The record AAAA (also quad-A record) specifies IPv6 address for given host. So it works the same way as the A record and the difference is the type of IP address.
+
+Canonical Name records (CNAME)The CNAME record specifies a domain name that has to be queried in order to resolve the original DNS query. Therefore CNAME records are used for creating aliases of domain names. CNAME records are truly useful when we want to alias our domain to an external domain. In other cases we can remove CNAME records and replace them with A records and even decrease performance overhead.
+
+Host Information records (HINFO)HINFO records are used to acquire general information about a host. The record specifies type of CPU and OS. The HINFO record data provides the possibility to use operating system specific protocols when two hosts want to communicate. For security reasons the HINFO records are not typically used on public servers.Note: Standard values in RFC 1010
+
+Mail exchanger record (MX)The MX resource record specifies a mail exchange server for a DNS domain name. The information is used by Simple Mail Transfer Protocol (SMTP) to route emails to proper hosts. Typically, there are more than one mail exchange server for a DNS domain and each of them have set priority
+
+Name Server records (NS)The NS record specifies an authoritative name server for given host.
+
+Reverse-lookup Pointer records (PTR)As opposed to forward DNS resolution (A and AAAA DNS records), the PTR record is used to look up domain names based on an IP address.
+
+```
 * Are there any other RRs and what are they used for?
 * What is a Split-Horizon DNS?
+```
+Imagine a very common scenario where you have a firewall, and behind that firewall you have a few servers, one of them named api.example.com.  This is most commonly configured with the firewall exposing a public IP address to the Internet, e.g., 1.2.3.4, which connects back to the API server at its internal IP address, e.g., 192.168.3.4.
+
+If you’re outside the firewall and try to connect to the API server, then you need DNS to resolve api.example.com to 1.2.3.4.  But what if you’re also behind the firewall?  This might be the case if you’re a web server, and need to make API calls on behalf of web visitors.  If you try to connect to 1.2.3.4, then you have a problem: your packet is going to go out the firewall and then attempt what is known as a “hairpin turn” to come back in – and this just doesn’t work.
+
+To solve this, the DNS introduced the concept of “views” – different sets of answers for the same record depending upon the source of the resolution request.  In other words, you can configure your DNS service such that if someone outside the firewall asks, “what is the IP address for api.example.com?” you answer, “1.2.3.4”.  But if someone inside the firewall asks the same question, you answer, “192.168.3.4”.  This avoids the whole hairpin turn problem.
+```
 * What is the sticky bit?
+```sh
+# A Sticky bit is a permission bit that is set on a file or a directory that lets only the owner of the file/directory or the root user to delete or rename the file. No other user is given privileges to delete the file created by some other user.
+$ chmod +t file
+```
 * What does the immutable bit do to a file?
+```sh
+# The immutable flag keeps even the root user from deleting a file.
+chattr +i file
+lsattr file
+```
 * What is the difference between hardlinks and symlinks? What happens when you remove the source to a symlink/hardlink?
+```md
+A hard link is merely an additional name for an existing file on Linux or other Unix-like operating systems
+
+Any number of hard links, and thus any number of names, can be created for any file. Hard links can also be created to other hard links. However, they cannot be created for directories, and they cannot cross filesystem boundaries or span across partitions.
+
+`$ ln file hardlink_file`
+
+Soft links is a special kind of file that points to another file, much like a shortcut. Unlike a hard link, a symbolic link does not contain the data in the target file. It simply points to another entry somewhere in the file system. This difference gives symbolic links certain qualities that hard links do not have, such as the ability to link to directories, or to files on remote computers networked through NFS. Also, when you delete a target file, symbolic links to that file become unusable, whereas hard links preserve the contents of the file. 
+
+`$ ln -s file softlink``
+
+# Differences:
+
+A soft link does not contain the data in the target file.
+A soft link points to another entry somewhere in the file system.
+A soft link has the ability to link to directories, or to files on remote computers networked through NFS.
+Deleting a target file for a symbolic link makes that link useless.
+A hard link preserves the contents of the file.
+A hard link cannot be created for directories, and they cannot cross filesystem boundaries or span across partitions.
+In a hardlink you can use any of the hardlink names created to execute a program or script in the same manner as the original name given.
+
+# In essence:
+
+Underneath the file system files are represented by inodes
+A file in the file system is basically a link to an inode.
+A hard link then just creates another file with a link to the same underlying inode.
+When you delete a file it removes one link to the underlying inode. The inode is only deleted (or deletable/over-writable) when all links to the inode have been deleted.
+A symbolic link is a link to another name in the file system.
+
+Once a hard link has been made the link is to the inode. deleting renaming or moving the original file will not affect the hard link as it links to the underlying inode. Any changes to the data on the inode is reflected in all files that refer to that inode.
+
+
+```
 * What is an inode and what fields are stored in an inode?
+```md
+The inode is a data structure in a Unix-style file system which describes a filesystem object such as a file or a directory. Each inode stores the attributes and disk block location(s) of the object’s data.[1] Filesystem object attributes may include metadata (times of last change,[2] access, modification), as well as owner and permission data.[3]
+
+A directory is a list of inodes with their assigned names. The list includes an entry for itself, its parent, and each of its children.
+
+# Attributes:
+- Device ID (this identifies the device containing the file; that is, the scope of uniqueness of the serial number).
+- File serial numbers.
+- The file mode which determines the file type and how the file's owner, its group, and others can access the file.
+- A link count telling how many hard links point to the inode.
+- The User ID of the file's owner.
+- The Group ID of the file.
+- The device ID of the file if it is a device file.
+- The size of the file in bytes.
+- Timestamps telling when the inode itself was last modified (ctime, inode change time), the file content last modified (mtime, modification time), and last accessed (atime, access time).
+- The preferred I/O block size.
+- The number of blocks allocated to this file.
+
+```
 * How to force/trigger a file system check on next reboot?
 * What is SNMP and what is it used for?
 * What is a runlevel and how to get the current runlevel?
